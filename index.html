@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>Vue.jsPet Depot</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<div id="app">
+        <header>
+        <h1 v-text="sitename"></h1>
+        <button v-on:click="showCheckout">
+                {{cartItemCount}}
+                <span class="fas fa-cart-plus"></span>Checkout
+                </button>
+        </header>
+        <main> <div v-if="showProduct"> <figure>
+        <img v-bind:src="product.image"> </figure> <h2 v-text="product.title"></h2>
+         <p v-text="product.description"></p>
+         <p>Price: {{product.price}}</p> 
+        <p>Available stock:{{product.availableInventory}}</p>
+        <button v-on:click="addtoCart" v-if="canAddToCart">
+                Add to cart
+        </button>
+        <button disabled="disabled" v-else>
+                Add to cart
+        </button>
+        </div>
+        <div v-else>
+                <h2>Checkout</h2>
+        </div>
+        </main>   
+</div>
+<script type="text/javascript">
+let webstore = new Vue({ 
+el: '#app',
+data: {
+sitename: "Vue.js Pet Depot",
+showProduct:true,
+product: {
+id: 1001,
+title: "Cat Food, 25lb bag",
+description: "A 25 pound of irresistable, organic goodness for your cat.",
+price: 2000,
+image: "assets/123.jpg",
+availablenventory:5
+},
+cart:[],
+},
+methods:{
+        addtoCart: function(){
+                this.cart.push(this.product.id);        
+        },
+showCheckout(){
+        this.showProduct=this.showProduct?false:true;
+},
+},
+computed: {
+        cartItemCount: function(){
+                return this.cart.length ;
+        },
+        canAddToCart: function(){
+                return this.product.availablenventory>this.cartItemCount;
+        }
+},
+}
+);
+</script>
+</body>
+</html>
